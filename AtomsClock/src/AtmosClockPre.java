@@ -13,14 +13,7 @@ public class AtmosClockPre {
 		Scanner keyboard = new Scanner (System.in);
 		
 		
-// 		
-// 		System.out.println("Welcome User!");
-// 		System.out.println("What is your current city?");
-// 		String city = keyboard.next();
-		
-	// 	keyboard.close();
-// 		
-		level = new String[24];
+	level = new String[24];
 		raining = new boolean[24];
 		
 		
@@ -67,18 +60,7 @@ public class AtmosClockPre {
 			
 		}
 	
-//		for (int x = 0;x < 4; x++) {
-//			for(int y = 0; y < 24; y++) {
-//			System.out.print(data[x][y] + " ");
-//			}
-//			System.out.println();
-//		}
-//		
-//	}
-		
-// 		for (int x = 0; x < 24; x++) {
-// 			System.out.println(level[x]);
-// 		}
+
 	}
 
 	
