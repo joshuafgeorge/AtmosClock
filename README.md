@@ -13,6 +13,6 @@ Added functionality which imports 2 days work of weather data so clock can show 
 
 Added functionality which updats data at 12am everyday so clock can run forever
 
-Clock now uses feels like temp in f rather that actual temp
+Clock now uses feels like temp in f rather that actual temp in f
 
 Fixed bugs with clock showing incorrest temp and precipitation
