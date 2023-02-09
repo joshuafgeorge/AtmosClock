@@ -154,6 +154,7 @@ public class ClockGui extends JFrame implements MouseListener{
 			if (sec%5 == 0) {
 				ticStart = size/2-10;
 			}else{
+				
 				ticStart = size/2-5;
 			}
 
@@ -217,13 +218,13 @@ public class ClockGui extends JFrame implements MouseListener{
 		//for pm shift
 		if (Integer.parseInt(dtf.format(now)) > 12) {
 			n1 += 12;
-			//System.out.print("pm clcle correction");
+			
 		}
 		
 		//for updating passed hours 
 		if (Integer.parseInt(dtf.format(now)) > n + n1) {
 			n1 += 12;
-			//System.out.print("update past hours");
+			
 		}
 		
 		if (AtmosClockPre.getColor(n + n1).equalsIgnoreCase("purple")) {
