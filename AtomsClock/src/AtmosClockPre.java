@@ -72,9 +72,7 @@ public class AtmosClockPre {
 		
 	
 
-	}//
-
-
+	}
 
 	public static double humid(double humidity) {
 
