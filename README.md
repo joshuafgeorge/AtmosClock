@@ -29,3 +29,9 @@ Stopped unnessary API calls
 
 Fixed incorrect data from parsing only through first day
 
+## Future
+Automatically also gets location 
+
+Option to change location along with time in interface
+
+Open program without java commands(desktop shortcut)
