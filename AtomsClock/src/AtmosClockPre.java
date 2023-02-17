@@ -70,7 +70,6 @@ public class AtmosClockPre {
 //			System.out.print( getRaining(j)+ "1 ");
 //		}
 		
-		
 	
 
 	}//
