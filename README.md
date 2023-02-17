@@ -23,5 +23,9 @@ Used BufferStratagy to stop clockface from flashing after every second
 
 Implemented Runnable to take program off of main thread and run more smoothly
 
-Used color class to optimize code and increace readability
+Used color class to greatly optimize code and increace readability
+
+Stopped unnessary API calls
+
+Fixed incorrect data from parsing only through first day
 
