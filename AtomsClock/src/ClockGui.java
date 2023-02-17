@@ -34,7 +34,7 @@ public class ClockGui extends JFrame implements MouseListener{
 	private int centerX;
 	private int centerY;
 	int curr = -1;
-//
+
 	SimpleDateFormat sf;
 
 	Calendar cal;
