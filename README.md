@@ -16,3 +16,12 @@ Added functionality which updats data at 12am everyday so clock can run forever
 Clock now uses feels like temp in f rather that actual temp
 
 Fixed bugs with clock showing incorrest temp and precipitation
+
+
+## Version 3.0 
+Used BufferStratagy to stop clockface from flashing after every second
+
+Implemented Runnable to take program off of main thread and run more smoothly
+
+Used color class to optimize code and increace readability
+
