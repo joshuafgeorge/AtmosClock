@@ -29,9 +29,20 @@ Stopped unnessary API calls
 
 Fixed incorrect data from parsing only through first day
 
+## Version 4.0 
+Program asks for location inside of window insted of terminal
+
+Compleatly eliminated flashing 
+
+Added date to the clock display
+
+Added exectutable jar file support to clock and made first release
+
+Fixed bug not able to change to diffrent faces caused by update v3.0
+
 ## Future
 Automatically also gets location 
 
 Option to change location along with time in interface
 
-Open program without java commands(desktop shortcut)
+
