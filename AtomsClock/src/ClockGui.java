@@ -14,9 +14,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
-
-
 import javax.swing.JFrame;
 
 
@@ -56,11 +53,11 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 	static String str;
 	JFrame frame;
 	public static void main(String args[]){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("What city?");
-		str = sc.nextLine();
-		sc.close();
-		AtmosClockPre.atmos(str);
+//		Scanner sc = new Scanner(System.in);
+//		System.out.println("What city?");
+//		str = sc.nextLine();
+//		sc.close();
+//		AtmosClockPre.atmos(str);
 		new ClockGui();
 
 
