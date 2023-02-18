@@ -1,8 +1,6 @@
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.util.Scanner;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,7 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import javax.swing.JFrame;
+
 
 
 
@@ -25,9 +23,9 @@ import javax.swing.JFrame;
 
 public class ClockGui extends Canvas implements MouseListener, Runnable {
 
-	
-	
-	
+
+
+
 	private static final long serialVersionUID = 1030296368320806826L;
 	private int status=0;
 	private static final int spacing = 35;
@@ -37,27 +35,24 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 	private int centerX;
 	private int centerY;
 	int curr = -1;
-	
+
 	private Thread thread; 
 
 	SimpleDateFormat sf;
-
 	Calendar cal;
 	int hour;
 	int minute;
 	int second;
-	Color colorSecond,colorMHour,colorNumber;
 
+	double rsecond ;
+	double rminute ;
+	double rhours ;
 	Timer timer;
 	TimeZone timeZone;
 	static String str;
-	JFrame frame;
+	BufferStrategy bs;
 	public static void main(String args[]){
-//		Scanner sc = new Scanner(System.in);
-//		System.out.println("What city?");
-//		str = sc.nextLine();
-//		sc.close();
-//		AtmosClockPre.atmos(str);
+
 		new ClockGui();
 
 
@@ -70,32 +65,32 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 
 	}
 
-		public synchronized void start() {
-			thread = new Thread(this);
-			thread.start();
-			
-	
+	public synchronized void start() {
+		thread = new Thread(this);
+		thread.start();
+
+
+	}
+	public synchronized void stop() {
+		try {
+			thread.join();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		public synchronized void stop() {
-			try {
-				thread.join();
-			
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	
-		}
-		
-		public void run() {
-			
-				timer = new Timer();
-				timeZone = TimeZone.getDefault();
-				
-				timer.schedule(new TickTimerTask(), 0, 1000); //after 1s once repaint
-				
-			
-			stop();
-		}
+
+	}
+
+	public void run() {
+
+		timer = new Timer();
+		timeZone = TimeZone.getDefault();
+
+		timer.schedule(new TickTimerTask(), 0, 1000); //after 1s once repaint
+
+
+		stop();
+	}
 
 	class TickTimerTask extends TimerTask{
 
@@ -106,14 +101,15 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 
 			cal = (Calendar) Calendar.getInstance(timeZone);
 
-			BufferStrategy bs = getBufferStrategy();
+			bs = getBufferStrategy();
 			if (bs == null){
 				createBufferStrategy(2);
 				return;
 			}
 			Graphics g = bs.getDrawGraphics();
 
-			repaint();
+
+			apaint(g);
 			g.dispose();
 			bs.show();
 
@@ -121,12 +117,26 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 
 	}
 
-	public void paint(Graphics g) {
+	public void apaint(Graphics g) {
 
-		super.paint(g); 
+		//super.paint(g); 
+		if(status==0){
+			g.setColor(new Color(212, 234, 255));
+			g.fillRect(0, 0, 400, 430);		
+		}else if(status ==1){
 
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(0, 0, 400, 430);	
+		}else{
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, 400, 430);	
+
+		}
 		//border clock	
 		if(status == 0) {
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(0, 0, 400, 430);
+
 			g.setColor(new Color(124, 136, 162));
 			g.fillOval(25, spacing, 350, 350);	
 			g.setColor(Color.WHITE);
@@ -144,7 +154,6 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 
 
 		//clock face
-
 		drawClockFace(g);
 
 		//number clock face
@@ -156,36 +165,41 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 		minute = cal.get(Calendar.MINUTE);
 		second = cal.get(Calendar.SECOND);	
 
-		//	//draw digital clock
-		if(status==1){
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(centerX-40, centerY-35, 90, 20);
+		//	draw date and its box
+		if(status ==0){
+
 			g.setColor(Color.BLACK);
-			g.drawRect(centerX-40, centerY-35, 90, 20);
-			sf = new SimpleDateFormat("hh:mm:ss a");
-			g.setColor(Color.BLACK);
-			g.setFont(new Font("Tahoma", Font.BOLD, 12));
-			g.drawString(sf.format(cal.getTime()), centerX-35+3, centerY-35+15);
+			g.drawRect(centerX -50 , centerY-200, 100, 20);
+			sf = new SimpleDateFormat("EE MMM dd a");
+			g.drawString(sf.format(cal.getTime()), centerX + 7 - 50, centerY-185);
 		}
 
-		//draw date in clock 3
+		if(status == 1){
+			g.setColor(Color.BLACK);
+			g.drawRect(centerX -50 , centerY-200, 100, 20);
+			sf = new SimpleDateFormat("EE MMM dd a");
+			g.drawString(sf.format(cal.getTime()), centerX + 7 - 50, centerY-185);
+		}
+
 		if(status ==2){
 			g.setColor(Color.YELLOW);
-			g.drawRect(centerX+60, centerY-10, 40, 20);
-			sf = new SimpleDateFormat("dd");
-			g.drawString(sf.format(cal.getTime()), centerX+60+12, centerY+5);
+			g.drawRect(centerX -50 , centerY-200, 100, 20);
+			sf = new SimpleDateFormat("EE MMM dd a");
+			g.drawString(sf.format(cal.getTime()), centerX + 7 - 50, centerY-185);
+
 		}
 
-		//draw hands
+		//draws hands of clock
 		if(status==2){
-			drawHands(g,hour,minute,second,colorSecond.RED,colorMHour.YELLOW);
+			drawHands(g,hour,minute,second,Color.RED,Color.YELLOW);
 		}else{
-			drawHands(g,hour,minute,second,colorSecond.RED,colorMHour.BLACK);
+			drawHands(g,hour,minute,second,Color.RED,Color.BLACK);
 		}
 
-		//draw point clock
+		//draw center point of clock
 		g.setColor(Color.BLACK);
 		g.fillOval(centerX-5, centerY-5, 10, 10);
+
 		g.setColor(Color.RED);
 		g.fillOval(centerX-3, centerY-3, 6, 6);
 
@@ -193,7 +207,7 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 
 	/*-------------Clock Face----------------*/
 	private void drawClockFace(Graphics g) {
-		// TODO Auto-generated method stub
+
 
 		// tick marks
 		for (int sec = 0; sec<60; sec++) {
@@ -206,9 +220,9 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 			}
 
 			if(status ==2){
-				drawRadius(g, centerX, centerY, radPerSecMin*sec, ticStart-20, size/2-20,colorNumber.YELLOW);
+				drawRadius(g, centerX, centerY, radPerSecMin*sec, ticStart-20, size/2-20,Color.YELLOW);
 			}else{
-				drawRadius(g, centerX, centerY, radPerSecMin*sec, ticStart-20, size/2-20,colorNumber.BLACK);
+				drawRadius(g, centerX, centerY, radPerSecMin*sec, ticStart-20, size/2-20,Color.BLACK);
 			}
 
 		}
@@ -225,9 +239,10 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 		g.setColor(colorNumber);
 		g.drawLine(x+dxmin, y+dymin, x+dxmax, y+dymax);
 	}
-	/*---------------------------------------------*/
+	/*-----------------------------*/
 
-	/*----------------Clock Number-----------------*/
+	/*--------------Clock Data and Numbers---------------*/
+	//Calls method to draw each section of the clock
 	private void drawNumberClock(Graphics g) {
 
 		for(int num = 12 ;num > 0 ;num-- ){			
@@ -236,9 +251,9 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 
 
 	}
-
+	//Draws numbers and weather data to clock
 	private void drawnum(Graphics g, float angle,int n) {
-		// TODO Auto-generated method stub
+
 		float sine = (float)Math.sin(angle);
 		float cosine = (float)Math.cos(angle);
 		int dx = (int)((size/2-20-25) * -sine);
@@ -251,12 +266,14 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 		DateTimeFormatter dtfspec = DateTimeFormatter.ofPattern("HHmmss");
 		LocalTime now = LocalTime.now();
 		boolean check = true;
+		//midnight data call 
 		if(Integer.parseInt(dtfspec.format(now)) == 000002 && check){
 			AtmosClockPre.atmos(str);
-			System.out.print("Hello");
+
 			check = false;
 
 		}
+		//stops midnight call from happening more than once
 		if(Integer.parseInt(dtfspec.format(now)) == 000003){
 			check = true;
 		}
@@ -281,26 +298,23 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 		}
 		//for main temp colors on clock
 		g.setColor(AtmosClockPre.getColor(n + n1));
-
-
 		g.fillOval(centerX-10 +(int)((size/2-20-50) * -sine), centerY-10 + (int)((size/2-20-50) * -cosine), 20, 20);
 
+		//for setting raining colors on clock
 		g.setColor(AtmosClockPre.getRaining(n + n1));
-
-
 		g.fillOval(centerX-5 +(int)((size/2-20-75) * -sine), centerY-5 + (int)((size/2-20-75) * -cosine), 10, 10);
 
-
+		//for number color
 		g.setColor(Color.BLACK);
 	}
-	/*-----------------------------------------------*/
+	/*-----------------------------*/
 
-	/*----------------Clock Hands--------------------*/
+	/*---------------- Draws Clock Hands--------------------*/
 	private void drawHands(Graphics g, double hour, double minute, double second, Color colorSecond, Color colorMHour) {
-		// TODO Auto-generated method stub
-		double rsecond = (second*6)*(Math.PI)/180;
-		double rminute = ((minute + (second / 60)) * 6) * (Math.PI) / 180;
-		double rhours = ((hour + (minute / 60)) * 30) * (Math.PI) / 180;
+		
+		rsecond = (second*6)*(Math.PI)/180;
+		rminute = ((minute + (second / 60)) * 6) * (Math.PI) / 180;
+		rhours = ((hour + (minute / 60)) * 30) * (Math.PI) / 180;
 
 		g.setColor(colorSecond);
 		g.drawLine(centerX, centerY, centerX + (int) (150 * Math.cos(rsecond - (Math.PI / 2))), centerY + (int) (150 * Math.sin(rsecond - (Math.PI / 2))));
@@ -309,27 +323,26 @@ public class ClockGui extends Canvas implements MouseListener, Runnable {
 		g.drawLine(centerX, centerY, centerX + (int) (90 * Math.cos(rhours - (Math.PI / 2))), centerY + (int) (90 * Math.sin(rhours - (Math.PI / 2))));
 	}
 
+	/*-----------------------------*/
 
 
 
 
-	/*-------------------------------------------------*/
 
-	// event change interface clock
-
+	// Changes colors of a clocked when clicked
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+
 		if(status==0){
-			status =1;
-			frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+			status =1;		
+
 		}else if(status ==1){
 			status=2;		
-			frame.getContentPane().setBackground(Color.BLACK);
+
 		}else{
 			status =0;
-			frame.getContentPane().setBackground(new Color(212, 234, 255));
+
 		}
-		repaint();
+
 	}
 
 
