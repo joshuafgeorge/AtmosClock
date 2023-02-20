@@ -16,6 +16,7 @@ public class AtmosClockData {
 	public static double [][] getData(String city) {
 
 		try {
+			
 			String apiKey = "18641e7bfc3d4e78a03195018230402";
 
 			String urlString = "http://api.weatherapi.com/v1/forecast.json?key=" + apiKey + "&q="+ city + "&days=2&aqi=no&alerts=no";
@@ -30,6 +31,7 @@ public class AtmosClockData {
 
 			String inputLine;
 			StringBuilder response = new StringBuilder();
+			String responseHelp = "";
 
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
@@ -40,19 +42,23 @@ public class AtmosClockData {
 			now.set(Calendar.MINUTE, 0);
 			now.set(Calendar.HOUR_OF_DAY, 0);
 			for(int t = 0; t < 2; t++) {
+				
 				for (int a = 0 + (t * 24); a < 24 + (t * 24); a++) {
 					for(int i = 0; i <response.length() ;i++) {
 						if((response.substring(i, i+ 5).equals(sdf.format(now.getTime())))){	
 							setDay(i,response, a);
-							response.substring(i);
+							
+							responseHelp = response.substring(i);
 							break;
 						}
 
 					}
 					now.add(Calendar.HOUR_OF_DAY, +1);
-
+					response.setLength(0);
+					response.append(responseHelp);
 
 				}
+				
 			}
 
 			finalData[0] = temp;
@@ -68,6 +74,7 @@ public class AtmosClockData {
 //				System.out.println(finalData[i].length);
 //				System.out.println();
 //				
+			
 //			}
 
 		} catch (Exception e) {
@@ -125,6 +132,7 @@ public class AtmosClockData {
 					}
 
 				}
+				
 				break;
 			}
 		}
